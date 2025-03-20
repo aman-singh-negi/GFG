@@ -5,27 +5,33 @@ using namespace std;
 
 // } Driver Code Ends
 class Solution {
-  private:
-    void dfs(vector<int>&ans,vector<int>&visited,int src,vector<vector<int>>& adj)
+    private:
+    void dfs(vector<vector<int>>adj,vector<int>&visited,vector<int>&ans,int idx)
     {
-        visited[src]=1;
-        ans.push_back(src);
-        for(int i=0;i<adj[src].size();i++)
+        ans.push_back(idx);
+        visited[idx]=1;
+        for(int a:adj[idx])
         {
-            if(visited[adj[src][i]]==-1)
+            if(visited[a]==0)
             {
-                dfs(ans,visited,adj[src][i],adj);
+                dfs(adj,visited,ans,a);
             }
         }
     }
   public:
-    // Function to return a list containing the DFS traversal of the graph.
+    // Functionto return a list containing the DFS traversal of the graph.
     vector<int> dfsOfGraph(vector<vector<int>>& adj) {
         // Code here
-        vector<int>ans;
         int n=adj.size();
-        vector<int>visited(n,-1);
-        dfs(ans,visited,0,adj);
+        vector<int>visited(n,0);
+        vector<int>ans;
+        for(int i=0;i<n;i++)
+        {
+            if(visited[i]==0)
+            {
+                dfs(adj,visited,ans,i);
+            }
+        }
         return ans;
     }
 };
