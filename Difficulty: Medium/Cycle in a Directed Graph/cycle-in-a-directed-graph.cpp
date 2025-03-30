@@ -7,22 +7,19 @@ using namespace std;
 
 class Solution {
     private:
-        bool dfs(vector<vector<int>>&adj,vector<bool>&visited,vector<bool>&stackk,int src)
+        bool dfs(vector<vector<int>>& adj,vector<bool>& visited,vector<bool>& recSt,int src)
         {
             visited[src]=true;
-            stackk[src]=true;
+            recSt[src]=true;
             for(int i=0;i<adj[src].size();i++)
             {
                 if(visited[adj[src][i]]==false)
                 {
-                    if(dfs(adj,visited,stackk,adj[src][i]))return true;
+                    if(dfs(adj,visited,recSt,adj[src][i]))return true;
                 }
-                else if(stackk[adj[src][i]])
-                {
-                    return true;
-                }
+                else if(recSt[adj[src][i]]==true)return true;
             }
-            stackk[src]=false;
+            recSt[src]=false;
             return false;
         }
   public:
@@ -31,12 +28,12 @@ class Solution {
         // code here
         int n=adj.size();
         vector<bool>visited(n,false);
-        vector<bool>stackk(n,false);
+        vector<bool>recSt(n,false);
         for(int i=0;i<n;i++)
         {
-            if(!visited[i])
+            if(visited[i]==false)
             {
-                if(dfs(adj,visited,stackk,i))return true;
+                if(dfs(adj,visited,recSt,i))return true;
             }
         }
         return false;
