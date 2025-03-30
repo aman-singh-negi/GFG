@@ -6,21 +6,30 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
     private:
-        bool dfs(vector<vector<int>>&adj,vector<bool>&visited,int src,int parent)
+        bool bfs(vector<vector<int>>&adj,int src)
         {
+            int n=adj.size();
+            queue<pair<int,int>>q;
+            vector<bool>visited(n,false);
+            q.push({src,-1});
             visited[src]=true;
-            for(int i=0;i<adj[src].size();i++)
+            while(!q.empty())
             {
-                if(visited[adj[src][i]]==false)
+                pair<int,int>temp=q.front();
+                q.pop();
+                int r=temp.first;
+                int parent=temp.second;
+                for(int i=0;i<adj[r].size();i++)
                 {
-                    if(dfs(adj,visited,adj[src][i],src))
+                    if(visited[adj[r][i]]==false)
+                    {
+                        q.push({adj[r][i],r});
+                        visited[adj[r][i]]=true;
+                    }
+                    else if(parent!=adj[r][i])
                     {
                         return true;
                     }
-                }
-                else if(parent!=adj[src][i])
-                {
-                    return true;
                 }
             }
             return false;
@@ -31,13 +40,9 @@ class Solution {
     {
         // Code here
         int n=adj.size();
-        vector<bool>visited(n,false);
         for(int i=0;i<n;i++)
         {
-            if(visited[i]==false)
-            {
-                if(dfs(adj,visited,i,-1))return true;
-            }
+            if(bfs(adj,i))return true;
         }
         return false;
     }
