@@ -11,13 +11,15 @@ class Solution {
             visited[src]=true;
             for(int i=0;i<adj[src].size();i++)
             {
-                if(!visited[adj[src][i]])
+                if(visited[adj[src][i]]==false)
                 {
-                    bool a=dfs(adj,visited,adj[src][i],src);
-                    if(a==true)return true;
+                    if(dfs(adj,visited,adj[src][i],src))
+                    {
+                        return true;
+                    }
                 }
                 else if(parent!=adj[src][i])
-                {   
+                {
                     return true;
                 }
             }
@@ -30,13 +32,11 @@ class Solution {
         // Code here
         int n=adj.size();
         vector<bool>visited(n,false);
-        bool flag=true;
         for(int i=0;i<n;i++)
         {
-            if(!visited[i])
+            if(visited[i]==false)
             {
-                bool a=dfs(adj,visited,i,-1);
-                if(a==true)return true;
+                if(dfs(adj,visited,i,-1))return true;
             }
         }
         return false;
