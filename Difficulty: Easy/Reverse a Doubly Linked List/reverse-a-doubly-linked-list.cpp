@@ -71,17 +71,17 @@ class Solution {
     // Function to reverse a doubly linked list
     DLLNode* reverseDLL(DLLNode* head) {
         // Your code here
-        if(head==NULL || head->next==NULL)return head;
+        if(head->next==NULL)return head;
+        DLLNode* temp=head;
         DLLNode* back=NULL;
-        DLLNode* mover=head;
-        DLLNode* front=NULL;
-        while(mover!=NULL)
+        DLLNode* front=temp->next;
+        while(temp!=NULL)
         {
-            front=mover->next;
-            back=mover->prev;
-            mover->next=back;
-            mover->prev=front;
-            mover=mover->prev;
+            front=temp->next;
+            back=temp->prev;
+            temp->next=back;
+            temp->prev=front;
+            temp=temp->prev;
         }
         return back->prev;
     }
