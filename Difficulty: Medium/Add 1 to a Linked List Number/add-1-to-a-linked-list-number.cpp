@@ -24,6 +24,7 @@ void printList(Node* node) {
 
 
 // } Driver Code Ends
+
 // User function template for C++
 
 /*
@@ -42,30 +43,45 @@ struct Node
 */
 
 class Solution {
+    private:
+        void add(Node* head,int& cnt)
+        {
+            if(head->next==NULL)
+            {
+                int val=head->data;
+                val=val+1;
+                cnt=val/10;
+                val=val%10;
+                head->data=val;
+                return;
+            }
+            add(head->next,cnt);
+            if(cnt)
+            {
+                int val=head->data;
+                val=val+cnt;
+                cnt=val/10;
+                val=val%10;
+                head->data=val;
+            }
+        }
   public:
-    int add(Node** head)
-    {
-        if(*head==NULL)return 1;
-        int carry=add(&(*head)->next);
-        int sum=(*head)->data+carry;
-        carry=sum/10;
-        sum=sum%10;
-        (*head)->data=sum;
-        return carry;
-    }
     Node* addOne(Node* head) {
         // Your Code here
-        // return head of list after adding one
-        int c=add(&head);
-        if(c)
+        int cnt=0;
+        if(head==NULL)return NULL;
+        add(head,cnt);
+        if(cnt)
         {
-            Node* temp=new Node(c);
+            Node* temp= new Node(cnt);
             temp->next=head;
-            head=temp;
+            return temp;
         }
         return head;
+        // return head of list after adding one
     }
 };
+
 
 //{ Driver Code Starts.
 
