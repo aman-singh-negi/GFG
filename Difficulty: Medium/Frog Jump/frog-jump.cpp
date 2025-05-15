@@ -4,27 +4,29 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution {
+    private:
+        int find(vector<int>&height,int idx,vector<int>&dp)
+        {
+            if(idx==0)return 0;
+            if(idx==1)return abs(height[1]-height[0]);
+            if(dp[idx]!=-1)return dp[idx];
+            
+            
+            int oneStep=abs(height[idx]-height[idx-1])+find(height,idx-1,dp);
+            int twoStep=abs(height[idx]-height[idx-2])+find(height,idx-2,dp);
+            return dp[idx]=min(oneStep,twoStep);
+        }
   public:
-    int find(int n,vector<int>&v,vector<int>&dp)
-    {
-        if(n==0)return 0;
-        if(dp[n]!=-1)return dp[n];
-        int one=find(n-1,v,dp)+ abs(v[n]-v[n-1]);
-        int two=INT_MAX;
-        if(n>1)two=find(n-2,v,dp)+ abs(v[n]-v[n-2]);
-        dp[n]=min(one,two);
-        return dp[n];
-    }
-    int minCost(vector<int>& height) 
-    {
+    int minCost(vector<int>& height) {
         // Code here
-        //Memoization
         int n=height.size();
-        vector<int>dp(n,-1);
-        return find(height.size()-1,height,dp);
+        vector<int>dp(n+1,-1);
+        return find(height,n-1,dp);
     }
 };
+
 
 //{ Driver Code Starts.
 
