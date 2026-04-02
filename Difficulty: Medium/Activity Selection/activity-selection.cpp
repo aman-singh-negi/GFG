@@ -1,28 +1,25 @@
 class Solution {
   public:
-    static bool comp(vector<int>&a,vector<int>&b)
+    static bool comp(pair<int,int>a,pair<int,int>b)
     {
-        if(a[1]<b[1])return true;
-        return false;
+        return a.second<b.second;
     }
     int activitySelection(vector<int> &start, vector<int> &finish) {
         // code here
-        int n=start.size();
-        vector<vector<int>>grid(n,vector<int>(2));
-        for(int i=0;i<n;i++)
+        vector<pair<int,int>>v;
+        for(int i=0;i<start.size();i++)
         {
-            grid[i][0]=start[i];
-            grid[i][1]=finish[i];
+            v.push_back({start[i],finish[i]});
         }
-        sort(grid.begin(),grid.end(),comp);
-        int endtime=INT_MIN;
+        sort(v.begin(),v.end(),comp);
+        int endTime=0;
         int cnt=0;
-        for(int i=0;i<n;i++)
+        for(int i=0;i<v.size();i++)
         {
-            if(endtime<grid[i][0])
+            if(v[i].first>endTime)
             {
+                endTime=v[i].second;
                 cnt++;
-                endtime=grid[i][1];
             }
         }
         return cnt;
